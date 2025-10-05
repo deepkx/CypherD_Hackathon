@@ -1,4 +1,4 @@
-# Mock Web3 Wallet (CypherD Challenge)
+# Web3 Wallet (CypherD Challenge)
 
 A small, working mock Web3 wallet that lets you create/import a wallet, view balance, send mock ETH (in ETH or USD terms), sign approvals, and see history. It includes server-side signature verification, price quoting, and a simple notification hook.
 
