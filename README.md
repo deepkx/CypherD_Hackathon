@@ -77,3 +77,98 @@ steel saddle drill naive coach security open unable rebuild produce sun worry
 Notes
 - This is a mock wallet for the challenge; keys are stored locally for demo purposes.
 - If ports are busy: kill processes on 3000/3001/4000 and retry.
+
+## Sample inputs and outputs
+
+### 1) Request transfer (ETH amount)
+
+Request
+```bash
+curl -s -X POST http://localhost:4000/request-transfer \
+  -H "Content-Type: application/json" \
+  -d '{
+    "sender":"0xdd41b7ee629c3cA606fde07E78eBB29999978426",
+    "recipient":"0xD3e2DB895692fAf70eD72a97b60ACbeF500b276B",
+    "amountEth": 1
+  }'
+```
+
+Response (example)
+```json
+{
+  "message": "{\"type\":\"transfer_approval\",\"nonce\":\"gRdX_R-o\",\"from\":\"0xdd41...8426\",\"to\":\"0xD3e2...276B\",\"ethAmount\":1,\"amountUsd\":null,\"expiresAt\":1759648954478}",
+  "expiresAt": 1759648954478,
+  "currencySample": null
+}
+```
+
+### 2) Request transfer (USD amount)
+
+Request
+```bash
+curl -s -X POST http://localhost:4000/request-transfer \
+  -H "Content-Type: application/json" \
+  -d '{
+    "sender":"0xdd41b7ee629c3cA606fde07E78eBB29999978426",
+    "recipient":"0xD3e2DB895692fAf70eD72a97b60ACbeF500b276B",
+    "amountUsd": 1000
+  }'
+```
+
+Response (example)
+```json
+{
+  "message": "{\"type\":\"transfer_approval\",\"nonce\":\"mzZAHyo9\",\"from\":\"0xdd41...8426\",\"to\":\"0xD3e2...276B\",\"ethAmount\":0.48,\"amountUsd\":1000,\"expiresAt\":1759648916749}",
+  "expiresAt": 1759648916749,
+  "currencySample": { "eth_price_usd": 2083.0 }
+}
+```
+
+### 3) Submit transfer (signed)
+
+Request (signature produced by signing the received message with the sender's private key)
+```bash
+curl -s -X POST http://localhost:4000/submit-transfer \
+  -H "Content-Type: application/json" \
+  -d '{
+    "sender": "0xdd41b7ee629c3cA606fde07E78eBB29999978426",
+    "recipient": "0xD3e2DB895692fAf70eD72a97b60ACbeF500b276B",
+    "message": "{\"type\":\"transfer_approval\",\"nonce\":\"gRdX_R-o\",...}",
+    "signature": "0x249980db0d86159b...07c6278438e91b"
+  }'
+```
+
+Response (example)
+```json
+{
+  "success": true,
+  "tx": {
+    "id": "gqQFsiaD8v9y5PqGx2cJn",
+    "type": "completed",
+    "sender": "0xdd41...8426",
+    "recipient": "0xD3e2...276B",
+    "ethAmount": 1,
+    "status": "completed",
+    "hash": "0x9u4dECF3ZTx...",
+    "executedAt": 1759648931980
+  }
+}
+```
+
+Common error (USD flow with price moved > 1%)
+```json
+{ "error": "price moved too much" }
+```
+
+### 4) Get balance
+
+Request
+```bash
+curl -s http://localhost:4000/balance/0xdd41b7ee629c3cA606fde07E78eBB29999978426
+```
+
+Response (example)
+```json
+{ "balanceEth": 17, "balanceUsd": 77788.6 }
+```
+
