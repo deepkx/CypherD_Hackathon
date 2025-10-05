@@ -66,7 +66,7 @@ steel saddle drill naive coach security open unable rebuild produce sun worry
 - Fallback: a secondary currency API or mocked rate
 - Challenge note: Skip API request shape documented and compatible; USD→ETH quoting and a fresh check on submit enforce a 1% slippage guard.
 
-## Screenshots (add yours)
+## Screenshots 
 
 - Dashboard: wallet info, balance, quick actions
 - Send flow: recipient, amount (ETH or USD), approve + submit
