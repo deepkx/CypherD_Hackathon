@@ -68,9 +68,6 @@ steel saddle drill naive coach security open unable rebuild produce sun worry
 
 ## Screenshots 
 
-- Dashboard: wallet info, balance, quick actions
-- Send flow: recipient, amount (ETH or USD), approve + submit
-- History: list of txs with status
 
 ---
 
